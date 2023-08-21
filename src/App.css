@@ -1,38 +1,98 @@
-.App {
-  text-align: center;
+* {
+  margin: 0px auto;
+  padding: 5px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-color: #ecf8f9 !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+nav {
+  height: 50px;
+  background-color: dodgerblue;
+  /* background-color: white; */
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  color: white;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  justify-items: center;
+  text-decoration: none;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+li {
+  list-style-type: none;
+  text-decoration: none;
+  font-weight: 500;
+  color: white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.book-image {
+  width: 200px;
+}
+
+Link {
+  color: white;
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none !important;
+  color: white !important;
+}
+
+.bookslist {
+  color: dodgerblue;
+}
+
+.nobooks {
+  margin-top: 30vh;
+  width: 30%;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+label {
+  font-weight: 600 !important;
+}
+
+.books-list-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: #b6eafa;
+  padding: 2px;
+  margin: 0;
+  width: 200px;
+  /* border: 1px solid dodgerblue; */
+
+  height: 200px;
+  box-sizing: border-box;
+}
+
+img {
+  width: 200px !important;
+}
+
+.book-image {
+  width: 100px !important;
+}
+
+.book-name {
+  font-weight: 800;
+}
+
+.card-content {
+  background-color: dodgerblue !important;
+  color: white !important;
+  width: 300px !important;
 }

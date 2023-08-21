@@ -1,25 +1,121 @@
-import logo from './logo.svg';
-import './App.css';
+import { Link, Route, Routes } from "react-router-dom";
+import Home from "./Pages/Home";
+import Book from "./Pages/Book";
+import AddBook from "./Pages/AddBook";
+import "./App.css";
+import BooksList from "./Pages/BooksList";
 
-function App() {
+import { useState } from "react";
+import NotFound from "./Pages/NotFound";
+import { useNavigate } from "react-router-dom";
+import EditBook from "./Pages/EditBook";
+import AuthPage from "./Pages/AuthPage";
+
+const App = () => {
+  const [token, setToken] = useState("");
+  const [books, setBooks] = useState([
+    { id: "1", name: "John Smith", department: "CSE" },
+    { id: "2", name: "Sam S", department: "EEE" },
+    { id: "3", name: "Maria S", department: "MECH" },
+  ]);
+
+  const [selectedBook, setSelectedBook] = useState("");
+  const [selectedEditBook, setSelectedEditBook] = useState("");
+
+  const addingBook = (newBookData) => {
+    let originalBooks = [...books];
+    setBooks([...books, { ...newBookData, id: books.length + 1 }]);
+  };
+
+  const updatingBook = (updatedbook) => {
+    let originalBooks = [...books];
+    console.log("in updating book: ", updatedbook);
+    const updatedBooks = books.map((u) =>
+      u.id === updatedbook.id ? updatedbook : u
+    );
+    console.log("after update: ", updatedBooks);
+    setBooks(updatedBooks);
+    navigate(`/books`);
+  };
+
+  const navigate = useNavigate();
+
+  const handleDelete = (book) => {
+    const originalBooks = [...books];
+    const updatedBooks = books.filter((u) => u.id !== book.id);
+    setBooks(updatedBooks);
+    navigate(`/books`);
+  };
+
+  const handleUpdate = (book) => {
+    const originalBooks = [...books];
+    const updatedBooks = books.map((u) => (u.id === book.id ? book : u));
+    setBooks(updatedBooks);
+    navigate(`/books`);
+  };
+
+  if (!token) {
+    return <AuthPage />;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <nav className="navbar">
+        <ul className="">
+          <li className="">
+            <Link to="/">Home</Link>
+          </li>
+
+          <li className="">
+            <Link to="/books">Books List</Link>
+          </li>
+          <li className="">
+            <Link to="/books/add">Add Book</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/books">
+          <Route
+            index
+            element={
+              <BooksList
+                books={books}
+                onSelect={(book) => {
+                  console.log("selected book", book);
+                  setSelectedBook(book);
+                }}
+              />
+            }
+          />
+          <Route
+            path=":id"
+            element={
+              <Book
+                book={selectedBook}
+                handleDelete={handleDelete}
+                onEdit={(book) => setSelectedEditBook(book)}
+              />
+            }
+          />
+          <Route
+            path=":id/editBook"
+            element={
+              <EditBook
+                selectedEditBook={selectedEditBook}
+                updatingBook={updatingBook}
+              />
+            }
+          />
+          <Route path="add" element={<AddBook addingBook={addingBook} />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
-}
+};
 
 export default App;
