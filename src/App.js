@@ -72,6 +72,7 @@ const App = () => {
           <li className="">
             <Link to="/books/add">Add Book</Link>
           </li>
+          <button>Logout</button>
         </ul>
       </nav>
 
