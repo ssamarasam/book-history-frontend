@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
-const Login = (props) => {
+const SignUp = (props) => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [name, setName] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -10,14 +11,22 @@ const Login = (props) => {
   };
   return (
     <div className="auth-form-container">
-      <h2>Login</h2>
-      <form className="login-form" onSubmit={handleSubmit}>
+      <h2>Register</h2>
+      <form className="register-form" onSubmit={handleSubmit}>
+        <label htmlFor="name">Full name</label>
+        <input
+          value={name}
+          name="name"
+          onChange={(e) => setName(e.target.value)}
+          id="name"
+          placeholder="full Name"
+        />
         <label htmlFor="email">email</label>
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="email"
-          placeholder="enter you email"
+          placeholder="youremail@gmail.com"
           id="email"
           name="email"
         />
@@ -32,14 +41,11 @@ const Login = (props) => {
         />
         <button type="submit">Log In</button>
       </form>
-      <button
-        className="link-btn"
-        onClick={() => props.onFormSwitch("register")}
-      >
-        Don't have an account? Register here.
+      <button className="link-btn" onClick={() => props.onFormSwitch("login")}>
+        Already have an account? Login here.
       </button>
     </div>
   );
 };
 
-export default Login;
+export default SignUp;
