@@ -3,13 +3,13 @@ import React, { useRef, useState } from "react";
 const AddBook = ({ addingBook }) => {
   const [success, setSucess] = useState(false);
   const nameRef = useRef(null);
-  const deptRef = useRef(null);
-  const book = { name: "", department: "" };
+  const authorRef = useRef(null);
+  const book = { name: "", author: "" };
 
   const handleBookAdd = (e) => {
     e.preventDefault();
     book.name = nameRef.current.value;
-    book.department = deptRef.current.value;
+    book.author = authorRef.current.value;
     addingBook(book);
     formReset();
     setSucess(true);
@@ -21,7 +21,7 @@ const AddBook = ({ addingBook }) => {
 
   const formReset = () => {
     nameRef.current.value = "";
-    deptRef.current.value = "";
+    authorRef.current.value = "";
   };
 
   return (
@@ -42,15 +42,15 @@ const AddBook = ({ addingBook }) => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="department" className="form-label">
-            Department
+          <label htmlFor="author" className="form-label">
+            author
           </label>
           <input
-            ref={deptRef}
+            ref={authorRef}
             type="text"
             className="form-control"
-            id="department"
-            placeholder="enter department"
+            id="author"
+            placeholder="enter author"
             minLength={3}
             required
           />
@@ -64,7 +64,7 @@ const AddBook = ({ addingBook }) => {
 
       {success && (
         <p className="text-primary">
-          Used Added Successfully! Visit books List page to find the newly added
+          Book Added Successfully! Visit books List page to find the newly added
           book.
         </p>
       )}

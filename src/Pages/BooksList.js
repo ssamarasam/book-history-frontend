@@ -22,24 +22,24 @@ const BooksList = ({ books, onSelect }) => {
   return (
     <>
       {showAlert && <p>Books List updated!</p>}
-      <ul className="userslist list-group d-flex flex-row flex-wrap">
+      <ul className="bookslist list-group d-flex flex-row flex-wrap">
         {books.map((book) => (
           <li
-            className="userslist list-group-item"
+            className="bookslist list-group-item"
             onClick={() => {
               onSelect(book);
               navigate(`/books/${book.id}`);
             }}
             key={book.id}
           >
-            <div className="users-list-box">
+            <div className="books-list-box">
               <img
                 src={bookImage}
-                className="card-img-top user-image"
+                className="card-img-top book-image"
                 alt="..."
               />
-              <p className="user-name">{book.name}</p>
-              <p>{book.department}</p>
+              <p className="book-name">{book.name}</p>
+              <p>{book.author}</p>
             </div>
           </li>
         ))}

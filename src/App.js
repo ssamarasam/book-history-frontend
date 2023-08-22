@@ -10,13 +10,15 @@ import NotFound from "./Pages/NotFound";
 import { useNavigate } from "react-router-dom";
 import EditBook from "./Pages/EditBook";
 import AuthPage from "./Pages/AuthPage";
+import { removeToken } from "./helpers";
+import { getToken } from "./helpers";
 
 const App = () => {
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
   const [books, setBooks] = useState([
-    { id: "1", name: "John Smith", department: "CSE" },
-    { id: "2", name: "Sam S", department: "EEE" },
-    { id: "3", name: "Maria S", department: "MECH" },
+    { id: "1", name: "harry Potter 1", author: "JK Rwoling" },
+    { id: "2", name: "Kural", author: "Valluvar" },
+    { id: "3", name: "DSA", author: "BalaGurusamy" },
   ]);
 
   const [selectedBook, setSelectedBook] = useState("");
@@ -54,7 +56,12 @@ const App = () => {
     navigate(`/books`);
   };
 
-  if (!token) {
+  const handleLogout = () => {
+    removeToken();
+    navigate("/login", { replace: true });
+  };
+
+  if (!getToken()) {
     return <AuthPage />;
   }
 
@@ -72,7 +79,7 @@ const App = () => {
           <li className="">
             <Link to="/books/add">Add Book</Link>
           </li>
-          <button>Logout</button>
+          <button onClick={handleLogout}>Logout</button>
         </ul>
       </nav>
 

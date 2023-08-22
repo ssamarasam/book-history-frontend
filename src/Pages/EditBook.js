@@ -5,17 +5,17 @@ const EditBook = ({ selectedEditBook, updatingBook }) => {
   console.log(selectedEditBook);
   const [success, setSucess] = useState("");
   const nameRef = useRef(null);
-  const deptRef = useRef(null);
+  const authorRef = useRef(null);
 
   const handleBookUpdate = (e) => {
     e.preventDefault();
     let updatedName = nameRef.current.value;
-    let updatedDept = deptRef.current.value;
-    console.log(updatedName, updatedDept);
+    let updatedAuthor = authorRef.current.value;
+    console.log(updatedName, updatedAuthor);
     const updatedBook = {
       ...selectedEditBook,
       name: updatedName,
-      department: updatedBook,
+      author: updatedAuthor,
     };
 
     updatingBook(updatedBook);
@@ -24,7 +24,7 @@ const EditBook = ({ selectedEditBook, updatingBook }) => {
 
   const formReset = () => {
     nameRef.current.value = "";
-    deptRef.current.value = "";
+    authorRef.current.value = "";
   };
 
   return (
@@ -44,16 +44,16 @@ const EditBook = ({ selectedEditBook, updatingBook }) => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="department" className="form-label">
-            Department
+          <label htmlFor="author" className="form-label">
+            author
           </label>
           <input
-            defaultValue={copiedBook.department}
-            ref={deptRef}
+            defaultValue={copiedBook.author}
+            ref={authorRef}
             type="text"
             className="form-control"
-            id="department"
-            placeholder="enter department"
+            id="author"
+            placeholder="enter author"
           />
         </div>
         <div className="col-12">
