@@ -2,7 +2,13 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bookImage from "../assets/book.png";
 
-const BooksList = ({ books, onSelect }) => {
+// const BooksList = ({ books, onSelect }) => {
+import { useBookContext } from "../context/BookContext";
+
+const BooksList = ({ onSelect }) => {
+  const { books } = useBookContext();
+  console.log("books from backend: ", books);
+
   const [showAlert, setShowAlert] = useState(false);
   useEffect(() => {
     setShowAlert(true);
@@ -38,8 +44,8 @@ const BooksList = ({ books, onSelect }) => {
                 className="card-img-top book-image"
                 alt="..."
               />
-              <p className="book-name">{book.name}</p>
-              <p>{book.author}</p>
+              <p className="book-name">{book.attributes.name}</p>
+              <p>{book.attributes.author}</p>
             </div>
           </li>
         ))}

@@ -13,12 +13,9 @@ const Card = ({ book, handleDelete, onEdit }) => {
     <div className="card card-content" style={{ width: "18rem" }}>
       <img src={bookImage} className="card-img-top book-image" alt="..." />
       <div className="card-body">
-        <h5 className="card-title">{book.name}</h5>
-        <h6 className="card-title">Department: {book.department}</h6>
-        <p className="card-text">
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </p>
+        <h5 className="card-title">{book.attributes.name}</h5>
+        <h6 className="card-title">author: {book.attributes.author}</h6>
+        <p className="card-text">{book.attributes.review}</p>
 
         <div className="d-flex flex-row">
           <button

@@ -61,9 +61,9 @@ const App = () => {
     navigate("/login", { replace: true });
   };
 
-  if (!getToken()) {
-    return <AuthPage />;
-  }
+  // if (!getToken()) {
+  //   return <AuthPage />;
+  // }
 
   return (
     <>
