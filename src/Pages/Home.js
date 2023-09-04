@@ -3,9 +3,8 @@ import React from "react";
 const Home = () => {
   return (
     <>
-      <p className="text-primary">Implemented CRUD in React</p>
+      <p className="text-primary">Welcome to Book History app</p>
       <br></br>
-      <p>Books List page will have the list of books added.</p>
     </>
   );
 };

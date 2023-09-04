@@ -2,33 +2,18 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bookImage from "../assets/book.png";
 
-// const BooksList = ({ books, onSelect }) => {
-import { useBookContext } from "../context/BookContext";
-
-const BooksList = ({ onSelect }) => {
-  const { books } = useBookContext();
-  console.log("books from backend: ", books);
-
-  const [showAlert, setShowAlert] = useState(false);
-  useEffect(() => {
-    setShowAlert(true);
-    setTimeout(() => {
-      setShowAlert(false);
-    }, 3000);
-  }, [books]);
-
+const BooksList = ({ books, onSelect }) => {
   const navigate = useNavigate();
   if (books.length === 0)
     return (
-      <div class="alert alert-primary no Books" role="alert">
+      <div className="alert alert-primary no Books" role="alert">
         No books in database!
       </div>
     );
 
   return (
     <>
-      {showAlert && <p>Books List updated!</p>}
-      <ul className="bookslist list-group d-flex flex-row flex-wrap">
+      <ul className="books-list list-group d-flex flex-row flex-wrap">
         {books.map((book) => (
           <li
             className="bookslist list-group-item"

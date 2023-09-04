@@ -1,8 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useBookContext } from "../context/BookContext";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const EditBook = ({ selectedEditBook, updatingBook }) => {
-  const copiedBook = { ...selectedEditBook };
-  console.log(selectedEditBook);
+const EditBook = ({ selectedBook, onUpdate }) => {
+  console.log(selectedBook);
+  const { id } = useParams();
+  const { updateBook, getBookData } = useBookContext();
+  const copiedBook = { ...selectedBook };
+  const navigate = useNavigate();
+
   const [success, setSucess] = useState("");
   const nameRef = useRef(null);
   const authorRef = useRef(null);
@@ -11,15 +18,30 @@ const EditBook = ({ selectedEditBook, updatingBook }) => {
     e.preventDefault();
     let updatedName = nameRef.current.value;
     let updatedAuthor = authorRef.current.value;
-    console.log(updatedName, updatedAuthor);
+
     const updatedBook = {
-      ...selectedEditBook,
-      name: updatedName,
-      author: updatedAuthor,
+      ...selectedBook,
+      attributes: {
+        ...selectedBook.attributes,
+        name: updatedName,
+        author: updatedAuthor,
+      },
     };
 
-    updatingBook(updatedBook);
+    const data = JSON.stringify({
+      data: {
+        name: updatedName,
+        author: updatedAuthor,
+      },
+    });
+
+    console.log("data: ", data);
+
+    updateBook(parseInt(selectedBook.id), data);
+
     formReset();
+    onUpdate(updatedBook);
+    navigate(`/books`);
   };
 
   const formReset = () => {
@@ -35,7 +57,7 @@ const EditBook = ({ selectedEditBook, updatingBook }) => {
             Name
           </label>
           <input
-            defaultValue={copiedBook.name}
+            defaultValue={copiedBook.attributes.name}
             ref={nameRef}
             type="text"
             className="form-control"
@@ -48,7 +70,7 @@ const EditBook = ({ selectedEditBook, updatingBook }) => {
             author
           </label>
           <input
-            defaultValue={copiedBook.author}
+            defaultValue={copiedBook.attributes.author}
             ref={authorRef}
             type="text"
             className="form-control"

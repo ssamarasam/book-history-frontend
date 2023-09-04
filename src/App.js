@@ -1,58 +1,49 @@
 import { Link, Route, Routes } from "react-router-dom";
+import "./App.css";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Home from "./Pages/Home";
 import Book from "./Pages/Book";
-import AddBook from "./Pages/AddBook";
-import "./App.css";
 import BooksList from "./Pages/BooksList";
-
-import { useState } from "react";
-import NotFound from "./Pages/NotFound";
-import { useNavigate } from "react-router-dom";
+import AddBook from "./Pages/AddBook";
 import EditBook from "./Pages/EditBook";
 import AuthPage from "./Pages/AuthPage";
+import NotFound from "./Pages/NotFound";
 import { removeToken } from "./helpers";
 import { getToken } from "./helpers";
+import { useBookContext } from "./context/BookContext";
 
 const App = () => {
-  // const [token, setToken] = useState("");
-  const [books, setBooks] = useState([
-    { id: "1", name: "harry Potter 1", author: "JK Rwoling" },
-    { id: "2", name: "Kural", author: "Valluvar" },
-    { id: "3", name: "DSA", author: "BalaGurusamy" },
-  ]);
+  const [booksList, setBooksList] = useState([]);
+  const { books, deleteBook } = useBookContext();
+  const [selectedBook, setSelectedBook] = useState({});
 
-  const [selectedBook, setSelectedBook] = useState("");
-  const [selectedEditBook, setSelectedEditBook] = useState("");
-
-  const addingBook = (newBookData) => {
-    let originalBooks = [...books];
-    setBooks([...books, { ...newBookData, id: books.length + 1 }]);
-  };
-
-  const updatingBook = (updatedbook) => {
-    let originalBooks = [...books];
-    console.log("in updating book: ", updatedbook);
-    const updatedBooks = books.map((u) =>
-      u.id === updatedbook.id ? updatedbook : u
-    );
-    console.log("after update: ", updatedBooks);
-    setBooks(updatedBooks);
-    navigate(`/books`);
-  };
+  useEffect(() => {
+    setBooksList(books);
+  }, [books]);
 
   const navigate = useNavigate();
 
-  const handleDelete = (book) => {
-    const originalBooks = [...books];
-    const updatedBooks = books.filter((u) => u.id !== book.id);
-    setBooks(updatedBooks);
+  const onAdd = (newBook) => {
+    let originalBooks = [...booksList];
+    setBooksList([...books, { ...newBook, id: books.length + 1 }]);
+  };
+  const onUpdate = (updatedBook) => {
+    let originalBooks = [...books];
+
+    const updatedBooks = books.map((u) =>
+      u.id === updatedBook.id ? updatedBook : u
+    );
+    setBooksList(updatedBooks);
     navigate(`/books`);
   };
 
-  const handleUpdate = (book) => {
+  const handleDelete = (id) => {
     const originalBooks = [...books];
-    const updatedBooks = books.map((u) => (u.id === book.id ? book : u));
-    setBooks(updatedBooks);
+    const newBooks = books.filter((u) => u.id !== id);
+    setBooksList(newBooks);
+    deleteBook(id);
+
     navigate(`/books`);
   };
 
@@ -61,9 +52,9 @@ const App = () => {
     navigate("/login", { replace: true });
   };
 
-  // if (!getToken()) {
-  //   return <AuthPage />;
-  // }
+  if (!getToken()) {
+    return <AuthPage />;
+  }
 
   return (
     <>
@@ -72,14 +63,15 @@ const App = () => {
           <li className="">
             <Link to="/">Home</Link>
           </li>
-
           <li className="">
             <Link to="/books">Books List</Link>
           </li>
           <li className="">
             <Link to="/books/add">Add Book</Link>
           </li>
-          <button onClick={handleLogout}>Logout</button>
+          <button className="logout_button" onClick={handleLogout}>
+            Logout
+          </button>
         </ul>
       </nav>
 
@@ -90,7 +82,7 @@ const App = () => {
             index
             element={
               <BooksList
-                books={books}
+                books={booksList}
                 onSelect={(book) => {
                   console.log("selected book", book);
                   setSelectedBook(book);
@@ -100,24 +92,15 @@ const App = () => {
           />
           <Route
             path=":id"
-            element={
-              <Book
-                book={selectedBook}
-                handleDelete={handleDelete}
-                onEdit={(book) => setSelectedEditBook(book)}
-              />
-            }
+            element={<Book book={selectedBook} handleDelete={handleDelete} />}
           />
           <Route
             path=":id/editBook"
             element={
-              <EditBook
-                selectedEditBook={selectedEditBook}
-                updatingBook={updatingBook}
-              />
+              <EditBook selectedBook={selectedBook} onUpdate={onUpdate} />
             }
           />
-          <Route path="add" element={<AddBook addingBook={addingBook} />} />
+          <Route path="add" element={<AddBook onAdd={onAdd} />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

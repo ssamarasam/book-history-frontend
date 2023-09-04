@@ -1,22 +1,42 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useBookContext } from "../context/BookContext";
 
-const AddBook = ({ addingBook }) => {
+const AddBook = ({ onAdd }) => {
   const [success, setSucess] = useState(false);
   const nameRef = useRef(null);
   const authorRef = useRef(null);
   const book = { name: "", author: "" };
+  const { createNewBook } = useBookContext();
+  const navigate = useNavigate();
 
   const handleBookAdd = (e) => {
     e.preventDefault();
     book.name = nameRef.current.value;
     book.author = authorRef.current.value;
-    addingBook(book);
+
+    const data = JSON.stringify({
+      data: {
+        name: book.name,
+        author: book.author,
+      },
+    });
+    let newBook = {
+      attributes: {
+        name: book.name,
+        author: book.author,
+      },
+    };
+    onAdd(newBook);
+    createNewBook(data);
+
     formReset();
     setSucess(true);
 
     setTimeout(() => {
       setSucess(false);
     }, 5000);
+    navigate(`/books`);
   };
 
   const formReset = () => {
@@ -25,9 +45,9 @@ const AddBook = ({ addingBook }) => {
   };
 
   return (
-    <>
+    <section className="add_form">
       <form onSubmit={handleBookAdd}>
-        <div className="mb-3">
+        <div className="form-input">
           <label htmlFor="fullname" className="form-label">
             Name
           </label>
@@ -41,7 +61,7 @@ const AddBook = ({ addingBook }) => {
             required
           />
         </div>
-        <div className="mb-3">
+        <div className="form-input">
           <label htmlFor="author" className="form-label">
             author
           </label>
@@ -55,8 +75,8 @@ const AddBook = ({ addingBook }) => {
             required
           />
         </div>
-        <div className="col-12">
-          <button type="submit" className="btn btn-primary">
+        <div className="form-input">
+          <button type="submit" className="submit-button">
             Add
           </button>
         </div>
@@ -68,7 +88,7 @@ const AddBook = ({ addingBook }) => {
           book.
         </p>
       )}
-    </>
+    </section>
   );
 };
 
