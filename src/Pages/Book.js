@@ -4,13 +4,12 @@ import { useBookContext } from "../context/BookContext";
 import { useNavigate } from "react-router-dom";
 import bookImage from "../assets/book.png";
 
-const Book = ({ handleDelete }) => {
+const Book = ({ book, handleDelete }) => {
   const { books } = useBookContext();
   const { id } = useParams();
 
-  console.log("books from book page: ", books);
+  // let book = books.find((b) => b.id === parseInt(id));
 
-  let book = books.find((b) => b.id === parseInt(id));
   const navigate = useNavigate();
 
   const editBookDetails = (book) => {

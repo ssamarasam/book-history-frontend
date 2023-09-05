@@ -26,12 +26,13 @@ const App = () => {
 
   const onAdd = (newBook) => {
     let originalBooks = [...booksList];
-    setBooksList([...books, { ...newBook, id: books.length + 1 }]);
+    const newBooks = [...booksList, { ...newBook, id: books.length + 1 }];
+    setBooksList(newBooks);
   };
+
   const onUpdate = (updatedBook) => {
     let originalBooks = [...books];
-
-    const updatedBooks = books.map((u) =>
+    const updatedBooks = booksList.map((u) =>
       u.id === updatedBook.id ? updatedBook : u
     );
     setBooksList(updatedBooks);
@@ -40,10 +41,9 @@ const App = () => {
 
   const handleDelete = (id) => {
     const originalBooks = [...books];
-    const newBooks = books.filter((u) => u.id !== id);
+    const newBooks = booksList.filter((u) => u.id !== id);
     setBooksList(newBooks);
     deleteBook(id);
-
     navigate(`/books`);
   };
 
@@ -84,7 +84,6 @@ const App = () => {
               <BooksList
                 books={booksList}
                 onSelect={(book) => {
-                  console.log("selected book", book);
                   setSelectedBook(book);
                 }}
               />

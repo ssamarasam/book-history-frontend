@@ -32,11 +32,11 @@ const AddBook = ({ onAdd }) => {
 
     formReset();
     setSucess(true);
+    navigate(`/books`);
 
     setTimeout(() => {
       setSucess(false);
     }, 5000);
-    navigate(`/books`);
   };
 
   const formReset = () => {

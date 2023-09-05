@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const EditBook = ({ selectedBook, onUpdate }) => {
-  console.log(selectedBook);
   const { id } = useParams();
   const { updateBook, getBookData } = useBookContext();
   const copiedBook = { ...selectedBook };
@@ -35,12 +34,11 @@ const EditBook = ({ selectedBook, onUpdate }) => {
       },
     });
 
-    console.log("data: ", data);
-
+    onUpdate(updatedBook);
     updateBook(parseInt(selectedBook.id), data);
 
     formReset();
-    onUpdate(updatedBook);
+
     navigate(`/books`);
   };
 
